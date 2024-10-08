@@ -1,11 +1,12 @@
 "use client";
 
+import loginUser from "@/utils/actions/loginUser";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
-type FormValues = {
+export type FormValues = {
   email: string;
   password: string;
 };
@@ -18,7 +19,15 @@ const LoginPage = () => {
   } = useForm<FormValues>();
 
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
+    try {
+      const res = await loginUser(data);
+      if (res.success) {
+        alert(res.message);
+      }
+    } catch (err: any) {
+      console.error(err.message);
+      throw new Error(err.message);
+    }
   };
 
   return (

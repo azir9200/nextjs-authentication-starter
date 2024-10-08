@@ -1,7 +1,9 @@
 "use client";
 
+import { registerUser } from "@/utils/actions/registerUser";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export type UserData = {
@@ -11,6 +13,7 @@ export type UserData = {
 };
 
 const RegisterPage = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -21,6 +24,11 @@ const RegisterPage = () => {
     console.log(data);
 
     try {
+      const res = await registerUser(data);
+      if (res.success) {
+        alert(res.message);
+        router.push("/login");
+      }
     } catch (err: any) {
       console.error(err.message);
       throw new Error(err.message);
@@ -32,7 +40,7 @@ const RegisterPage = () => {
       <h1 className="text-center text-4xl mb-5">
         Register <span className="text-accent">Now</span>
       </h1>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-2 gap-4">
         <div>
           <Image
             src="https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-135.jpg?t=st=1710081713~exp=1710085313~hmac=f637c194f1f143e63a84950cbf978997453777c872adf4aebbbecdaa445601a1&w=740"
