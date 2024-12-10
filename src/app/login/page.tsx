@@ -4,6 +4,7 @@ import loginUser from "@/utils/actions/loginUser";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export type FormValues = {
@@ -12,6 +13,7 @@ export type FormValues = {
 };
 
 const LoginPage = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -22,7 +24,10 @@ const LoginPage = () => {
     try {
       const res = await loginUser(data);
       if (res.success) {
+        console.log("object", res);
         alert(res.message);
+        localStorage.setItem("accessToken", res.accessToken);
+        router.push("/");
       }
     } catch (err: any) {
       console.error(err.message);
@@ -92,7 +97,8 @@ const LoginPage = () => {
               className="btn btn-circle"
               onClick={() =>
                 signIn("google", {
-                  callbackUrl: "http://localhost:3000/dashboard",
+                  callbackUrl:
+                    "https://nextjs-authentication-starter-6b98mtd7r-azir-uddins-projects.vercel.app/dashboard",
                 })
               }
             >
@@ -107,7 +113,8 @@ const LoginPage = () => {
               className="btn btn-circle"
               onClick={() =>
                 signIn("github", {
-                  callbackUrl: "http://localhost:3000/dashboard",
+                  callbackUrl:
+                    "https://nextjs-authentication-starter-6b98mtd7r-azir-uddins-projects.vercel.app/dashboard",
                 })
               }
             >

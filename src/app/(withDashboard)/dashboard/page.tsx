@@ -16,8 +16,10 @@ const DashboardPage = async () => {
             Welcome {session?.user?.email}{" "}
           </h1>
           <Image
-            src={session?.user?.image}
+            src={session?.user?.image ?? "/default-user.png"}
             width={100}
+            // src={session?.user?.image }
+            // width={100}
             height={100}
             alt="user Img"
             className="mx-auto rounded-3xl"
